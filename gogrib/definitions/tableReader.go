@@ -22,7 +22,7 @@ type Table struct {
 func FilenameToTable(f string) Table {
 	file, err := os.Open(f)
 	if err != nil {
-		fmt.Printf("Unable to read table %s", f)
+		fmt.Printf("Unable to read table %s\n", f)
 		return Table{}
 	}
 	defer file.Close()

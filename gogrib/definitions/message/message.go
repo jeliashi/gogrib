@@ -4,11 +4,15 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"github.com/jeliashi/gogrib/gogrib/definitions"
 	"io"
+	"math"
 	"path/filepath"
 	"strconv"
+
+	"github.com/jeliashi/gogrib/gogrib/definitions"
 )
+
+const Grib2Divider = 1000000.0
 
 var tables map[string]definitions.Table = generateTables("tables/27")
 
@@ -45,4 +49,12 @@ func ReadNBytes(r io.Reader, n int) ([]byte, error) {
 		return nil, err
 	}
 	return buf, nil
+}
+
+func ScaleAndValueToReal(scale int, val int) float64 {
+	return float64(val) / math.Pow10(scale)
+}
+
+func DegToRad(v float64) float64 {
+	return math.Pi * v / 180.0
 }

@@ -3,15 +3,16 @@ package message
 import (
 	"encoding/binary"
 	"fmt"
-	"github.com/jeliashi/gogrib/gogrib/definitions"
 	"io"
+
+	"github.com/jeliashi/gogrib/gogrib/definitions"
 )
 
-var centreTable definitions.Table = definitions.FilenameToTable("../common/c-11.table")
-const versionTable := tables["1.0.table"]
-const sigOfRefTimeTable := tables["1.2.table"
-const productionStatusTable := tables["1.3.table"]
-const typeOfDataTable := tables["1.4.table"]
+var centreTable definitions.Table = definitions.FilenameToTable("definitions/common/c-11.table")
+var versionTable definitions.Table = tables["1.0.table"]
+var sigOfRefTimeTable definitions.Table = tables["1.2.table"]
+var productionStatusTable definitions.Table = tables["1.3.table"]
+var typeOfDataTable definitions.Table = tables["1.4.table"]
 
 type Section1 struct {
 	Centre                          definitions.TableEntry //'common/c-11.table'
@@ -35,18 +36,31 @@ func ParseSection1(r io.Reader) Section1 {
 		fmt.Println("unable to make section 1")
 		return Section1{}
 	}
-	centre := definitions.GetEntryFromTable(binary.BigEndian.Uint16(ReadNBytes(r, 2)), centreTable)
-	subCentre := binary.BigEndian.Uint16(ReadNBytes(r, 2))
-	tableVersion := definitions.GetEntryFromTable(uint8(ReadNBytes(r,1)), versionTable)
-	localVersion := uint8(ReadNBytes(r,1))
-	sigOfRefTime := definitions.GetEntryFromTable(uint8(ReadNBytes(r,1)), sigOfRefTimeTable)
-	year := binary.BigEndian.Uint16(ReadNBytes(r,2))
-	month := uint8(ReadNBytes(r,1))
-	day := uint8(ReadNBytes(r,1))
-	hour := uint8(ReadNBytes(r,1))
-	minute := uint8(ReadNBytes(r,1))
-	second := uint8(ReadNBytes(r,1))
-	prodStatus := definitions.GetEntryFromTable(uint8(ReadNBytes(r,1)), productionStatusTable)
-	typeOfData := definitions.GetEntryFromTable(uint8(ReadNBytes(r,1)), typeOfDataTable)
+	b, _ := ReadNBytes(r, 2)
+	centre := definitions.GetEntryFromTable(int(binary.BigEndian.Uint16(b)), centreTable)
+	b, _ = ReadNBytes(r, 2)
+	subCentre := binary.BigEndian.Uint16(b)
+	b, _ = ReadNBytes(r, 1)
+	tableVersion := definitions.GetEntryFromTable(int(uint8(b[0])), versionTable)
+	b, _ = ReadNBytes(r, 1)
+	localVersion := uint8(b[0])
+	b, _ = ReadNBytes(r, 1)
+	sigOfRefTime := definitions.GetEntryFromTable(int(uint8(b[0])), sigOfRefTimeTable)
+	b, _ = ReadNBytes(r, 2)
+	year := binary.BigEndian.Uint16(b)
+	b, _ = ReadNBytes(r, 1)
+	month := uint8(b[0])
+	b, _ = ReadNBytes(r, 1)
+	day := uint8(b[0])
+	b, _ = ReadNBytes(r, 1)
+	hour := uint8(b[0])
+	b, _ = ReadNBytes(r, 1)
+	minute := uint8(b[0])
+	b, _ = ReadNBytes(r, 1)
+	second := uint8(b[0])
+	b, _ = ReadNBytes(r, 1)
+	prodStatus := definitions.GetEntryFromTable(int(uint8(b[0])), productionStatusTable)
+	b, _ = ReadNBytes(r, 1)
+	typeOfData := definitions.GetEntryFromTable(int(uint8(b[0])), typeOfDataTable)
 	return Section1{centre, subCentre, tableVersion, localVersion, sigOfRefTime, year, month, day, hour, minute, second, prodStatus, typeOfData}
 }
