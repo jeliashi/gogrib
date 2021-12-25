@@ -15,6 +15,7 @@ type LambertConformal struct {
 	LongitudeOfFirstGridPoint float64
 	lats                      []float64
 	lons                      []float64
+	scanning                  ScanningMode
 }
 
 func ParseLambertConformal(r io.Reader) LambertConformal {
@@ -100,7 +101,7 @@ func ParseLambertConformal(r io.Reader) LambertConformal {
 	}
 	// LongitudeOfSouthernPole := float64(int(binary.BigEndian.Uint32(buf))) / Grib2Divider
 	lats, lons := IterLambertConformal(shape, nx, ny, LoV, LaD, Latin1, Latin2, firstLat, firstLon, Dx, Dy, scanningMode)
-	return LambertConformal{shape, nx, ny, firstLat, firstLon, lats, lons}
+	return LambertConformal{shape, nx, ny, firstLat, firstLon, lats, lons, scanningMode}
 }
 
 func IterLambertConformal(shape ShapeOfTheEarth, nx uint32, ny uint32, LoV float64, Lad float64, sLat1 float64, sLat2 float64, sLatFirst float64, sLonFirst float64, sDx float32, sDy float32, scanning ScanningMode) ([]float64, []float64) {
