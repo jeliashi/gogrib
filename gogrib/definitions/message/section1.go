@@ -3,7 +3,7 @@ package message
 import (
 	"encoding/binary"
 	"fmt"
-	"gogrib/definitions"
+	"github.com/jeliashi/gogrib/gogrib/definitions"
 	"io"
 )
 

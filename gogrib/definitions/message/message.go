@@ -4,7 +4,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"gogrib/definitions"
+	"github.com/jeliashi/gogrib/gogrib/definitions"
 	"io"
 	"path/filepath"
 	"strconv"

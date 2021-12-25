@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"gogrib/definitions/message"
+	"github.com/jeliashi/gogrib/gogrib/definitions/message"
 )
 
 func main() {
